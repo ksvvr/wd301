@@ -24,13 +24,15 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
   inputRef = React.createRef<HTMLInputElement>();
   addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    const newTask = {
-      title: this.state.title,
-      discription: this.state.discription,
-      todoDueDate: this.state.todoDueDate,
-    };
-    this.props.addTask(newTask);
-    this.setState({ title: "", discription: "", todoDueDate: new Date().toISOString() });
+    if (this.state.title != "" && this.state.todoDueDate.toString() != ""){
+        const newTask = {
+          title: this.state.title,
+          discription: this.state.discription,
+          todoDueDate: this.state.todoDueDate,
+        };
+        this.props.addTask(newTask);
+    }
+    // this.setState({ title: "", discription: "", todoDueDate: new Date().toISOString() });
   };
   
 
@@ -55,7 +57,7 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
         <input type="text" id="todoTitle" value={this.state.title} onChange={this.titleChanged} required/>
         <input type="text" id="todoDescription" onChange={this.discriptionChanged} value={this.state.discription}/>
         <input type="date" id="todoDueDate" onChange={this.todoDueDateChanged} value={this.state.todoDueDate} required/>
-        <button type="submit">Add item</button>
+        <button id="addTaskButton" type="submit">Add item</button>
       </form>
     )
   }
