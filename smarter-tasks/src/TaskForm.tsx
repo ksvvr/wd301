@@ -34,9 +34,6 @@ const TaskForm = (props: TaskFormProps) => {
     setFormState({ ...formState, todoDueDate: event.target.value });
   };
   
-  // this.setState({ title: "sample title" }); // setting title
-  // this.setState({ description: "sample description" }); // setting description
-  
   const addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     console.log(`Submitted the form with`);
