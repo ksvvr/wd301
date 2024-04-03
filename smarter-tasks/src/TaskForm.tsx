@@ -1,6 +1,6 @@
 import { TaskItem } from "./types";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useState } from "react";
+import React from "react";
 
 interface TaskFormProps {
   addTask: (task: TaskItem) => void;
@@ -8,7 +8,7 @@ interface TaskFormProps {
 
 interface TaskFormState {
     title: string;
-    discription: string;
+    description: string;
     todoDueDate: string;
   }
   
@@ -67,7 +67,7 @@ const TaskForm = (props: TaskFormProps) => {
   const [formState, setFormState] = React.useState<TaskFormState>({
     title: "",
     description: "",
-    dueDate: "",
+    todoDueDate: "",
   });
   
   const titleChanged: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -82,7 +82,7 @@ const TaskForm = (props: TaskFormProps) => {
   };
   const dueDateChanged: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     console.log(`${event.target.value}`);
-    setFormState({ ...formState, dueDate: event.target.value });
+    setFormState({ ...formState, todoDueDate: event.target.value });
   };
   
   // this.setState({ title: "sample title" }); // setting title
@@ -91,11 +91,11 @@ const TaskForm = (props: TaskFormProps) => {
   const addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     console.log(`Submitted the form with`);
-    if (formState.title.length === 0 || formState.dueDate.length === 0) {
+    if (formState.title.length === 0 || formState.todoDueDate.length === 0) {
       return;
     }
     props.addTask(formState);
-    setFormState({ title: "", description: "", dueDate: "" });
+    setFormState({ title: "", description: "", todoDueDate: "" });
   };
   
   return (
@@ -140,7 +140,7 @@ const TaskForm = (props: TaskFormProps) => {
             id="todoDueDate"
             name="todoDueDate"
             type="date"
-            value={formState.dueDate}
+            value={formState.todoDueDate}
             onChange={dueDateChanged}
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "

@@ -1,10 +1,9 @@
-import React from "react";
 import { TaskItem } from "./types";
 import Task from "./Task";
 interface Props {
   tasks: TaskItem[];
 }
-interface State {}
+// interface State {}
 // class TaskList extends React.Component<Props, State> {
   
 //   render() {
@@ -19,7 +18,7 @@ const TaskList = (props: Props) => {
       key={idx}
       title={task.title}
       description={task.description}
-      dueDate={task.dueDate}
+      todoDueDate={task.todoDueDate}
     />
   ));
   return <>{list}</>;
