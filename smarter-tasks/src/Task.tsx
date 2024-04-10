@@ -1,6 +1,8 @@
 import "./TaskCard.css";
 import { TaskItem } from "./types";
 
+import { Link } from 'react-router-dom';
+
 interface TaskProps {
   item: TaskItem;
   removeTask: (task: TaskItem) => void;
@@ -11,9 +13,10 @@ const Task = (props: TaskProps) => {
     <div className="TaskItem shadow-md border border-slate-100">
       <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
         <div>
-          <a href={`/tasks/${item.id || ""}`}>
-            <h2 className="text-base font-bold my-1">{item.title}</h2>
-          </a>
+        <Link to={`/tasks/${item.id || ""}`}>
+          <h2 className="text-base font-bold my-1">{item.title}</h2>
+        </Link>
+
           <p className="text-sm text-slate-500">{item.todoDueDate}</p>
           <p className="text-sm text-slate-500">
             Description: {item.description}
