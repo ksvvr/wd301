@@ -13,13 +13,17 @@ const TaskList = (props: Props) => {
   };
 
   const list = props.tasks.map((task, idx) => (
-    <Task
-      key={idx}
-      title={task.title}
-      description={task.description}
-      todoDueDate={task.todoDueDate}
-      onDelete={() => handleRemove(idx)}
-    />
+    
+<Task
+  key={idx}
+  item={{
+    id: task.id,
+    title: task.title,
+    description: task.description,
+    todoDueDate: task.todoDueDate
+  }}
+  removeTask={() => handleRemove(idx)}
+/>
   ));
   return <>{list}</>;
 };
