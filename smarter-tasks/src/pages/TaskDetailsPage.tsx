@@ -1,15 +1,3 @@
-// import React from 'react';
-
-// const TaskDetailsPage: React.FC = () => {
-//   return (
-//     <div>
-//       <h1>Task Details page</h1>
-//     </div>
-//   );
-// };
-
-// export default TaskDetailsPage;
-
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useLocalStorage } from '../hooks/useLocalStorage';
