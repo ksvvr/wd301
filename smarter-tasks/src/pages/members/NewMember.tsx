@@ -1,45 +1,66 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react';
 
-const NewMember = ({ onClose, onAddMember }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const [submitError, setSubmitError] = useState('');
+// Assuming these are the details you want to capture for a new member
+interface Member {
+  id: string;
+  name: string;
+  email: string;
+}
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await fetch('API_ENDPOINT/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to create user');
-      }
-      reset(); // Reset form fields
-      onClose(); // Close dialog
-      onAddMember(); // Refresh members list
-    } catch (error) {
-      setSubmitError(error.message);
-    }
+interface NewMemberProps {
+  onClose: () => void;
+  onAddMember: (member: Member) => void;
+}
+
+const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
+  const [member, setMember] = React.useState<Member>({ id: '', name: '', email: '' });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setMember((prevMember) => ({
+      ...prevMember,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onAddMember(member);
+    onClose(); // Close the modal or form after adding the member
   };
 
   return (
-    <div className="modal">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register('name', { required: true })} placeholder="Name" />
-        {errors.name && <span>Required</span>}
-        <input {...register('email', { required: true })} placeholder="Email" />
-        {errors.email && <span>Required</span>}
-        <input type="password" {...register('password', { required: true })} placeholder="Password" />
-        {errors.password && <span>Required</span>}
-        <button type="submit">Add Member</button>
-        {submitError && <span>{submitError}</span>}
-      </form>
-      <button onClick={onClose}>Close</button>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>ID:</label>
+        <input
+          name="id"
+          value={member.id}
+          onChange={handleChange}
+          type="text"
+        />
+      </div>
+      <div>
+        <label>Name:</label>
+        <input
+          name="name"
+          value={member.name}
+          onChange={handleChange}
+          type="text"
+        />
+      </div>
+      <div>
+        <label>Email:</label>
+        <input
+          name="email"
+          value={member.email}
+          onChange={handleChange}
+          type="email"
+        />
+      </div>
+      <button type="submit">Add Member</button>
+      <button type="button" onClick={onClose}>Close</button>
+    </form>
   );
 };
 
