@@ -1,61 +1,49 @@
+// src/pages/projects/NewProject.tsx
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form";
 
+// First I'll import the addProject function
+import { addProject } from '../../context/projects/actions';
+
+// Then I'll import the useProjectsDispatch hook from projects context
+import { useProjectsDispatch } from "../../context/projects/context";
 type Inputs = {
   name: string
 };
-
-import { API_ENDPOINT } from '../../config/constants';
-
-
 const NewProject = () => {
-  let [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
+  // Next, I'll add a new state to handle errors.
+  const [error, setError] = useState(null)
+
+  // Then I'll call the useProjectsDispatch function to get the dispatch function 
+  // for projects 
+  const dispatchProjects = useProjectsDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-
-  const openModal = () => {
-    setIsOpen(true)
-  }
   const closeModal = () => {
     setIsOpen(false)
   }
-
-  const [name, setName] = useState('');
-
+  const openModal = () => {
+    setIsOpen(true)
+  }
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-
-    //event.preventDefault();
     const { name } = data
-    const token = localStorage.getItem("authToken") ?? "";
-    try {
-      const response = await fetch(`${API_ENDPOINT}/projects`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
-        body: JSON.stringify({ name }),
-      });
-      // If response is not OK, in that case I'll throw an error.
 
-      if (!response.ok) {
-        throw new Error('Failed to create project');
-      }
-      // Next, I'll extract the response body as JSON data
+    // Next, I'll call the addProject function with two arguments: 
+    //`dispatchProjects` and an object with `name` attribute. 
+    // As it's an async function, we will await for the response.
+    const response = await addProject(dispatchProjects, { name })
 
-      const data = await response.json();
-
-      // Let's print the data in console
-
-      console.log(data)
+    // Then depending on response, I'll either close the modal...
+    if (response.ok) {
       setIsOpen(false)
-    } catch (error) {
-      // And in catch block, I'll print the error in console.
+    } else {
 
-      console.error('Operation failed:', error);
+      // Or I'll set the error.
+      setError(response.error as React.SetStateAction<null>)
     }
   };
-
-
-
   return (
     <>
       <button
@@ -65,7 +53,6 @@ const NewProject = () => {
       >
         New Project
       </button>
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -99,18 +86,20 @@ const NewProject = () => {
                   </Dialog.Title>
                   <div className="mt-2">
                     <form onSubmit={handleSubmit(onSubmit)}>
-
+                      {/* I'll show the error, if it exists.*/}
+                      {error &&
+                        <span>{error}</span>
+                      }
                       <input
                         type="text"
                         placeholder='Enter project name...'
                         autoFocus
                         {...register('name', { required: true })}
-                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${errors.name ? 'border-red-500' : ''
-                          }`}
+                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
+                          errors.name ? 'border-red-500' : ''
+                        }`}
                       />
                       {errors.name && <span>This field is required</span>}
-
-
                       <button type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
                         Submit
                       </button>
@@ -118,15 +107,13 @@ const NewProject = () => {
                         Cancel
                       </button>
                     </form>
-
                   </div>
                 </Dialog.Panel>
-
               </Transition.Child>
             </div>
           </div>
         </Dialog>
-      </Transition>
+      </Transition>    
     </>
   )
 }
