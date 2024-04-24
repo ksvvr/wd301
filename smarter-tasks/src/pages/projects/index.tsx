@@ -1,7 +1,10 @@
+import ProjectList from "./ProjectList";
 const Projects = () => {
-    return (
+  return (
+    <>
       <h2>Projects</h2>
-    )
-  }
-  export default Projects;
-  
+      <ProjectList />
+    </>
+  )
+}
+export default Projects;
