@@ -5,6 +5,7 @@ interface Member {
   id: string;
   name: string;
   email: string;
+  password: string;
 }
 
 interface NewMemberProps {
@@ -23,10 +24,18 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onAddMember(member);
-    onClose(); // Close the modal or form after adding the member
+    const response = await fetch("API_ENDPOINT/members", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(member),
+    });
+    if (response.ok) {
+      const newMember = await response.json();
+      onAddMember(newMember);
+      onClose();
+    }
   };
 
   return (
@@ -43,6 +52,7 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
       <div>
         <label>Name:</label>
         <input
+          id='name'
           name="name"
           value={member.name}
           onChange={handleChange}
@@ -52,13 +62,24 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
       <div>
         <label>Email:</label>
         <input
+          id='email'
           name="email"
           value={member.email}
           onChange={handleChange}
           type="email"
         />
       </div>
-      <button type="submit">Add Member</button>
+      <div>
+  <label>Password:</label>
+  <input
+    id='password'
+    name="password"
+    value={member.password} // This assumes you've added password to the member state
+    onChange={handleChange}
+    type="password"
+  />
+  </div>
+      <button type="submit" id="create-member-btn">Add Member</button>
       <button type="button" onClick={onClose}>Close</button>
     </form>
   );
