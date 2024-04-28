@@ -25,7 +25,7 @@ const MemberListItems: React.FC<MemberListItemProps> = ({ member, onDelete }) =>
   };
 
   return (
-    <div>
+    <div className='.member'>
       <p>Name: {member.name}</p>
       <p>Email: {member.email}</p>
       <button onClick={handleDelete}>Delete</button>

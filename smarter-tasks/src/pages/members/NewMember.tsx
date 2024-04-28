@@ -25,19 +25,25 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const response = await fetch(`${API_ENDPOINT}/users`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
-      body: JSON.stringify(member),
-    });
-    if (response.ok) {
-      const newMember = await response.json();
-      onAddMember(newMember);
-      onClose();
-    }
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   const response = await fetch(`${API_ENDPOINT}/users`, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
+  //     body: JSON.stringify(member),
+  //   });
+  //   if (response.ok) {
+  //     const newMember = await response.json();
+  //     onAddMember(newMember);
+  //     onClose();
+  //   }
+  // };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleAddMember(event);
   };
+  
 
   return (
     <form method='post' onSubmit={handleSubmit}>
