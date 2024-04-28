@@ -1,103 +1,142 @@
-import React from 'react';
-import { API_ENDPOINT } from '../../config/constants';
+// src/pages/members/NewMember.tsx
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from 'react'
+import { useForm, SubmitHandler } from "react-hook-form";
 
-// Assuming these are the details you want to capture for a new member
-interface Member {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-}
+// First I'll import the addMember function
+import { addMember } from '../../context/members/actions';
 
-interface NewMemberProps {
-  onClose: () => void;
-  onAddMember: (member: Member) => void;
-}
+// Then I'll import the useMembersDispatch hook from members context
+import { useMembersDispatch } from "../../context/members/context";
+type Inputs = {
+  name: string
+  email: string
+  password: string
+};
+const NewMember = () => {
+  const [isOpen, setIsOpen] = useState(false)
 
-const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
-  const [member, setMember] = React.useState<Member>({ id: '', name: '', email: '', password: '' });
+  // Next, I'll add a new state to handle errors.
+  const [error, setError] = useState(null)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setMember((prevMember) => ({
-      ...prevMember,
-      [name]: value,
-    }));
-  };
+  // Then I'll call the useMembersDispatch function to get the dispatch function 
+  // for members 
+  const dispatchMembers = useMembersDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+  const openModal = () => {
+    setIsOpen(true)
+  }
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const { name } = data
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault;
-    const { id, ...requestData } = member;
-    console.log(id)
-    const response = await fetch(`${API_ENDPOINT}/users`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
-      body: JSON.stringify(requestData),
-    });
+    // Next, I'll call the addMember function with two arguments: 
+    //`dispatchMembers` and an object with `name` attribute. 
+    // As it's an async function, we will await for the response.
+    const response = await addMember(dispatchMembers, { name })
+
+    // Then depending on response, I'll either close the modal...
     if (response.ok) {
-      const newMember = await response.json();
-      onAddMember(newMember);
-      onClose();
+      setIsOpen(false)
+    } else {
+
+      // Or I'll set the error.
+      setError(response.error as React.SetStateAction<null>)
     }
   };
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault;
-//     const memberData = {
-//         name: member.name,
-//         email: member.email,
-//         password: member.password,
-//     };
-//     onAddMember(memberData); // Assuming onAddMember expects a member object
-// };
-
-  
-
   return (
-    <form  onSubmit={handleSubmit}>
-      {/* <div>
-        <label>ID:</label>
-        <input
-          name="id"
-          value={member.id}
-          onChange={handleChange}
-          type="text"
-        />
-      </div> */}
-      <div>
-        <label>Name:</label>
-        <input
-          id='name'
-          name="name"
-          value={member.name}
-          onChange={handleChange}
-          type="text"
-        />
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          id='email'
-          name="email"
-          value={member.email}
-          onChange={handleChange}
-          type="email"
-        />
-      </div>
-      <div>
-  <label>Password:</label>
-  <input
-    id='password'
-    name="password"
-    value={member.password} // This assumes you've added password to the member state
-    onChange={handleChange}
-    type="password"
-  />
-  </div>
-      <button type="submit" id="create-member-btn">Add Member</button>
-      <button className='mt-5' type="button" onClick={onClose}>Close</button>
-    </form>
-  );
-};
-
+    <>
+      <button
+        type="button"
+        onClick={openModal}
+        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+      >
+        New Member
+      </button>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Create new member
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      {/* I'll show the error, if it exists.*/}
+                      {error &&
+                        <span>{error}</span>
+                      }
+                      <input
+                        type="text"
+                        placeholder='Enter member name...'
+                        autoFocus
+                        {...register('name', { required: true })}
+                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
+                          errors.name ? 'border-red-500' : ''
+                        }`}
+                      />
+                      {errors.name && <span>This field is required</span>}
+                      <input
+                        type="email"
+                        placeholder='Enter member email...'
+                        autoFocus
+                        {...register('email', { required: true })}
+                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
+                          errors.email ? 'border-red-500' : ''
+                        }`}
+                      />
+                      {errors.email && <span>This field is required</span>}
+                      <input
+                        type="password"
+                        placeholder='Enter member password...'
+                        autoFocus
+                        {...register('password', { required: true })}
+                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
+                          errors.password ? 'border-red-500' : ''
+                        }`}
+                      />
+                      {errors.password && <span>This field is required</span>}
+                      <button type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                        Submit
+                      </button>
+                      <button type="submit" onClick={closeModal} className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                        Cancel
+                      </button>
+                    </form>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>    
+    </>
+  )
+}
 export default NewMember;

@@ -1,24 +1,15 @@
-import React, { createContext, useContext, useReducer } from 'react';
-import { reducer } from './reducer';
-import { Member } from '../../types';
-
-interface MembersState {
-  members: Member[];
-  isLoading: boolean;
-  error: any;
-}
-
-const initialState: MembersState = {
-  members: [],
-  isLoading: false,
-  error: null,
-};
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React, { createContext, useContext, useReducer } from "react";
+import { reducer, initialState, MembersState, MembersActions } from "./reducer";
 const MembersStateContext = createContext<MembersState | undefined>(undefined);
-const MembersDispatchContext = createContext<React.Dispatch<any> | undefined>(undefined);
 
+type MembersDispatch = React.Dispatch<MembersActions>;
+
+const MembersDispatchContext = createContext<MembersDispatch | undefined>(undefined);
 export const MembersProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // Next, I'll pass the `dispatch` object as value of this MembersDispatchContext.
 
   return (
     <MembersStateContext.Provider value={state}>

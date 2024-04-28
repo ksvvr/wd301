@@ -1,27 +1,28 @@
-import React from 'react';
-import MemberListItems from './MemberListItems'; // Adjust the import path as necessary
+import React, { useEffect } from 'react';
+import { fetchMembers } from "../../context/members/actions";
 
-interface Member {
-  id: string;
-  name: string;
-  email: string;
-}
+// So, let's import the useMembersDispatch custom hook.
+import { useMembersDispatch } from "../../context/members/context";
 
-const members: Member[] = []; // Initialize this with your actual members data
-
+// I'll import the MemberListItems component from the same folder. 
+// This I'll define next.
+import MemberListItems from './MemberListItems';
 const MemberList: React.FC = () => {
-  const handleDeleteMember = (id: string) => {
-    // Logic to delete the member from the list, e.g., filter out the member by id
-    console.log(`Delete member with id: ${id}`);
-  };
 
+  // I'll define a new constant called dispatchMembers, 
+  // to call the useMembersDispatch() hook.
+  const dispatchMembers = useMembersDispatch();
+  
+  useEffect(() => {
+    // And I'll pass the `dispatchMembers` to `fetchMembers` function.
+    fetchMembers(dispatchMembers)
+  }, [])
   return (
-    <div>
-      {members.map((member) => (
-        <MemberListItems key={member.id} member={member} onDelete={handleDeleteMember} />
-      ))}
+    <div className="grid gap-4 grid-cols-4 mt-5">
+      {/*To keep this file clean, I'll move all the logic to access the members 
+       from our app-state, to a new component MemberListItems */}
+      <MemberListItems />
     </div>
   );
 };
-
 export default MemberList;
