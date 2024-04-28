@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_ENDPOINT } from '../../config/constants';
 
 // Assuming these are the details you want to capture for a new member
 interface Member {
@@ -26,7 +27,7 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("API_ENDPOINT/members", {
+    const response = await fetch(`${API_ENDPOINT}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(member),
@@ -39,8 +40,8 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form method='post' onSubmit={handleSubmit}>
+      {/* <div>
         <label>ID:</label>
         <input
           name="id"
@@ -48,7 +49,7 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
           onChange={handleChange}
           type="text"
         />
-      </div>
+      </div> */}
       <div>
         <label>Name:</label>
         <input

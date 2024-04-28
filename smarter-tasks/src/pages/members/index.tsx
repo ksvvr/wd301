@@ -7,10 +7,16 @@ import NewMember from './NewMember';
 const Members = () => {
   const [showNewMemberForm, setShowNewMemberForm] = useState(false);
 
-  const handleAddMember = (newMember) => {
+  const handleAddMember = (event) => {
+    event.preventDefault();
     //const dispatch = useMembersDispatch();
-  
-    dispatch({ type: 'ADD_MEMBER', payload: newMember });
+    const newMemberData = {
+      name: event.target.name.value,
+      email: event.target.email.value,
+      password: event.target.password.value,
+    };
+    
+    dispatch({ type: 'ADD_MEMBER', payload: newMemberData });
   
     setShowNewMemberForm(false);
   };
