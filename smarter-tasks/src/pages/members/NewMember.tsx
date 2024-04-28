@@ -18,9 +18,7 @@ const NewMember = () => {
 
   // Next, I'll add a new state to handle errors.
   const [error, setError] = useState(null)
-
-  // Then I'll call the useMembersDispatch function to get the dispatch function 
-  // for members 
+ 
   const dispatchMembers = useMembersDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const closeModal = () => {
@@ -30,32 +28,12 @@ const NewMember = () => {
     setIsOpen(true)
   }
 
-  // const onSubmit: SubmitHandler<Inputs> = async (data) => {
-  //   const { name } = data
-
-  //   // Next, I'll call the addMember function with two arguments: 
-  //   //`dispatchMembers` and an object with `name` attribute. 
-  //   // As it's an async function, we will await for the response.
-  //   const response = await addMember(dispatchMembers, { name })
-
-  //   // Then depending on response, I'll either close the modal...
-  //   if (response.ok) {
-  //     setIsOpen(false)
-  //   } else {
-
-  //     // Or I'll set the error.
-  //     setError(response.error as React.SetStateAction<null>)
-  //   }
-  // };
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { name } = data;
     const response = await addMember(dispatchMembers, { name });
     if (response.ok) {
       setIsOpen(false);
     } else {
-      // Assuming response.error is an Error object, we extract the message
-      // If it's not an Error object, ensure to adjust accordingly
       setError(response.error.message || 'Unexpected error occurred');
     }
   };
@@ -120,7 +98,7 @@ const NewMember = () => {
                       {errors.name && <span>This field is required</span>}
                       <input
                         id='email'
-                        type="email"
+                        type="text"
                         placeholder='Enter member email...'
                         autoFocus
                         {...register('email', { required: true })}
@@ -131,7 +109,7 @@ const NewMember = () => {
                       {errors.email && <span>This field is required</span>}
                       <input
                         id='password'
-                        type="password"
+                        type="text"
                         placeholder='Enter member password...'
                         autoFocus
                         {...register('password', { required: true })}

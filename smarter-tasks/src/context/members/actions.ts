@@ -1,5 +1,4 @@
 import { API_ENDPOINT } from '../../config/constants';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const fetchMembers = async (dispatch: any) => {
   const token = localStorage.getItem("authToken") ?? "";
   
@@ -22,9 +21,8 @@ export const addMember = async (dispatch: any, args: any) => {
     const token = localStorage.getItem("authToken") ?? "";
     const response = await fetch(`${API_ENDPOINT}/users`, {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
-
-      // Next, I'll pass the `args` here
       body: JSON.stringify(args), 
     });
     if (!response.ok) {
@@ -35,17 +33,11 @@ export const addMember = async (dispatch: any, args: any) => {
       return { ok: false, error: data.errors[0].message }
     }
 
-    // And if everything goes well with the API call, we will dispatch an action, 
-    // with `type` set to `ADD_PROJECT_SUCCESS` and in `payload` we will send the 
-    // new project `data`.
     dispatch({ type: 'ADD_MEMBER_SUCCESS', payload: data });
 
-    // Next, I'll return a status called "ok", with value `true`
-    // as everything went well.
     return { ok: true }
   } catch (error) {
     console.error('Operation failed:', error);
-  // Dialogue 5: And for error I'll return status called "ok", with value `false`.
     return { ok: false, error }
   }
 };
