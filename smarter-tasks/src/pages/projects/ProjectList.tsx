@@ -16,7 +16,7 @@ const ProjectList: React.FC = () => {
   useEffect(() => {
     // And I'll pass the `dispatchProjects` to `fetchProjects` function.
     fetchProjects(dispatchProjects)
-  }, [])
+  }, [dispatchProjects])
   return (
     <div className="grid gap-4 grid-cols-4 mt-5">
       {/*To keep this file clean, I'll move all the logic to access the projects 

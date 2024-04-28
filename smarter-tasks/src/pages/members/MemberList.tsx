@@ -16,7 +16,7 @@ const MemberList: React.FC = () => {
   useEffect(() => {
     // And I'll pass the `dispatchMembers` to `fetchMembers` function.
     fetchMembers(dispatchMembers)
-  }, [])
+  }, [dispatchMembers])
   return (
     <div className="grid gap-4 grid-cols-4 mt-5">
       {/*To keep this file clean, I'll move all the logic to access the members 

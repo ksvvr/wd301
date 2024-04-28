@@ -1,5 +1,5 @@
 // src/pages/members/MemberListItems.tsx
-import React from "react";
+//import React from "react";
 
 // First, I'll import the useMembersState custom hook to access members state.
 import { useMembersState } from "../../context/members/context";
@@ -7,7 +7,7 @@ export default function MemberListItems() {
 
   // I'll define a new constant called `state`, to call the useMembersState() hook, 
   // and get access to members state.
-  let state: any = useMembersState();
+  const state: any = useMembersState();
 
   // Next, I'll destructure the state object to gain access to members, 
   // isLoading, isError and errorMessage property.

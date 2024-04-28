@@ -1,5 +1,5 @@
 // src/pages/projects/ProjectListItems.tsx
-import React from "react";
+//import React from "react";
 
 // First, I'll import the useProjectsState custom hook to access projects state.
 import { useProjectsState } from "../../context/projects/context";
@@ -7,7 +7,7 @@ export default function ProjectListItems() {
 
   // I'll define a new constant called `state`, to call the useProjectsState() hook, 
   // and get access to projects state.
-  let state: any = useProjectsState();
+  const state: any = useProjectsState();
 
   // Next, I'll destructure the state object to gain access to projects, 
   // isLoading, isError and errorMessage property.
