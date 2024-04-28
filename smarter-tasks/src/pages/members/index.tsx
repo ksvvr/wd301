@@ -8,7 +8,7 @@ const Members = () => {
   const [showNewMemberForm, setShowNewMemberForm] = useState(false);
 
   const handleAddMember = (event) => {
-    event.preventDefault();
+    event.preventDefault;
     //const dispatch = useMembersDispatch();
     const newMemberData = {
       name: event.target.name.value,

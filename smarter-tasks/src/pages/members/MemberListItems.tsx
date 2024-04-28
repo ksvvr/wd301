@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_ENDPOINT } from '../../config/constants';
 
 interface Member {
   id: string;
@@ -13,7 +14,7 @@ interface MemberListItemProps {
 
 const MemberListItems: React.FC<MemberListItemProps> = ({ member, onDelete }) => {
   const handleDelete = async () => {
-    const response = await fetch(`API_ENDPOINT/users/${member.id}`, {
+    const response = await fetch(`${API_ENDPOINT}/users/${member.id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
