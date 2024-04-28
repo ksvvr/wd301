@@ -3,6 +3,7 @@ import { useMembersState, useMembersDispatch } from '../../context/members/conte
 import { fetchMembers } from '../../context/members/actions';
 import MemberListItems from './MemberListItems';
 import NewMember from './NewMember';
+import { ADD_MEMBER } from '../../context/members/actions';
 
 const Members = () => {
   const [showNewMemberForm, setShowNewMemberForm] = useState(false);
@@ -16,7 +17,7 @@ const Members = () => {
       password: event.target.password.value,
     };
     
-    dispatch({ type: 'ADD_MEMBER', payload: newMemberData });
+    dispatch({ type: ADD_MEMBER, payload: newMemberData }); 
   
     setShowNewMemberForm(false);
   };

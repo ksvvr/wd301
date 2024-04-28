@@ -15,7 +15,7 @@ interface NewMemberProps {
 }
 
 const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
-  const [member, setMember] = React.useState<Member>({ id: '', name: '', email: '', password: '' });
+  const [member, setMember] = React.useState<Member>({ name: '', email: '', password: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,7 +46,7 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
   
 
   return (
-    <form method='post' onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       {/* <div>
         <label>ID:</label>
         <input
@@ -87,7 +87,7 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
   />
   </div>
       <button type="submit" id="create-member-btn">Add Member</button>
-      <button type="button" onClick={onClose}>Close</button>
+      <button className='mt-5' type="button" onClick={onClose}>Close</button>
     </form>
   );
 };
