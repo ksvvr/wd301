@@ -15,7 +15,7 @@ interface NewMemberProps {
 }
 
 const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
-  const [member, setMember] = React.useState<Member>({ name: '', email: '', password: '' });
+  const [member, setMember] = React.useState<Member>({ id: '', name: '', email: '', password: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,10 +27,11 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault;
+    const { id, ...requestData } = member;
     const response = await fetch(`${API_ENDPOINT}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
-      body: JSON.stringify(member),
+      body: JSON.stringify(requestData),
     });
     if (response.ok) {
       const newMember = await response.json();
@@ -39,14 +40,20 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
     }
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   handleAddMember(event);
-  // };
+//   const handleSubmit = (event) => {
+//     event.preventDefault;
+//     const memberData = {
+//         name: member.name,
+//         email: member.email,
+//         password: member.password,
+//     };
+//     onAddMember(memberData); // Assuming onAddMember expects a member object
+// };
+
   
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form  onSubmit={handleSubmit}>
       {/* <div>
         <label>ID:</label>
         <input
