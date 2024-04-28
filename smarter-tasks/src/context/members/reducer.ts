@@ -1,5 +1,5 @@
 import { Member } from '../../types';
-import { FETCH_MEMBERS_BEGIN, FETCH_MEMBERS_SUCCESS, FETCH_MEMBERS_FAILURE } from './actions';
+import { FETCH_MEMBERS_BEGIN, FETCH_MEMBERS_SUCCESS, FETCH_MEMBERS_FAILURE, ADD_MEMBER } from './actions';
 
 interface MembersState {
   members: Member[];
@@ -15,6 +15,11 @@ const initialState: MembersState = {
 
 export const reducer = (state: MembersState = initialState, action: any): MembersState => {
   switch (action.type) {
+    case ADD_MEMBER:
+      return {
+        ...state,
+        members: [...state.members, action.payload], // Add the new member to the existing members array
+    };
     case FETCH_MEMBERS_BEGIN:
       return { ...state, isLoading: true, error: null };
     case FETCH_MEMBERS_SUCCESS:

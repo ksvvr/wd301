@@ -4,6 +4,7 @@ import { Member } from '../../types';
 export const FETCH_MEMBERS_BEGIN = 'FETCH_MEMBERS_BEGIN';
 export const FETCH_MEMBERS_SUCCESS = 'FETCH_MEMBERS_SUCCESS';
 export const FETCH_MEMBERS_FAILURE = 'FETCH_MEMBERS_FAILURE';
+export const ADD_MEMBER = 'ADD_MEMBER';
 
 export const fetchMembers = async (dispatch: any) => {
   dispatch({ type: FETCH_MEMBERS_BEGIN });
