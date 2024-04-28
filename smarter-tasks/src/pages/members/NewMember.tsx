@@ -29,7 +29,7 @@ const NewMember: React.FC<NewMemberProps> = ({ onClose, onAddMember }) => {
     e.preventDefault();
     const response = await fetch(`${API_ENDPOINT}/users`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
       body: JSON.stringify(member),
     });
     if (response.ok) {

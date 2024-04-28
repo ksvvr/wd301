@@ -16,7 +16,7 @@ const SignupForm: React.FC = () => {
     try {
       const response = await fetch(`${API_ENDPOINT}/organisations`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
         body: JSON.stringify({ name: organisationName, user_name: userName, email: userEmail, password: userPassword}),
       });
 
