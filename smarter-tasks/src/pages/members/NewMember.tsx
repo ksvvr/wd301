@@ -63,6 +63,7 @@ const NewMember = () => {
   return (
     <>
       <button
+        id='new-member-btn'
         type="button"
         onClick={openModal}
         className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
@@ -107,6 +108,7 @@ const NewMember = () => {
                         <span>{error}</span>
                       }
                       <input
+                        id='name'
                         type="text"
                         placeholder='Enter member name...'
                         autoFocus
@@ -117,6 +119,7 @@ const NewMember = () => {
                       />
                       {errors.name && <span>This field is required</span>}
                       <input
+                        id='email'
                         type="email"
                         placeholder='Enter member email...'
                         autoFocus
@@ -127,6 +130,7 @@ const NewMember = () => {
                       />
                       {errors.email && <span>This field is required</span>}
                       <input
+                        id='password'
                         type="password"
                         placeholder='Enter member password...'
                         autoFocus
@@ -136,7 +140,7 @@ const NewMember = () => {
                         }`}
                       />
                       {errors.password && <span>This field is required</span>}
-                      <button type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                      <button id='create-member-btn' type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
                         Submit
                       </button>
                       <button type="submit" onClick={closeModal} className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
