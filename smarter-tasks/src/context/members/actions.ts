@@ -21,7 +21,6 @@ export const addMember = async (dispatch: any, args: any) => {
     const token = localStorage.getItem("authToken") ?? "";
     const response = await fetch(`${API_ENDPOINT}/users`, {
       method: 'POST',
-      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
       body: JSON.stringify(args), 
     });
