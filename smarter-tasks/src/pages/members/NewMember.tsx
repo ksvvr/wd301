@@ -29,8 +29,8 @@ const NewMember = () => {
   }
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const { name } = data;
-    const response = await addMember(dispatchMembers, { name });
+    //const { name } = data;
+    const response = await addMember(dispatchMembers,  data );
     if (response.ok) {
       setIsOpen(false);
     } else {
