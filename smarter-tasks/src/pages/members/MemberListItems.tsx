@@ -1,12 +1,13 @@
 // src/pages/members/MemberListItems.tsx
 //import React from "react";
 import { API_ENDPOINT } from "../../config/constants";
-
+import { fetchMembers } from '../../context/members/actions';
 // First, I'll import the useMembersState custom hook to access members state.
-import { useMembersState } from "../../context/members/context";
+import { useMembersDispatch, useMembersState } from "../../context/members/context";
 import { Member } from "../../types";
 
 export default function MemberListItems() {
+const dispatchMembers = useMembersDispatch();
   const handleDelete = async (member: Member) => {
     const response = await fetch(`${API_ENDPOINT}/users/${member.id}`, {
       method: 'DELETE',
@@ -16,6 +17,7 @@ export default function MemberListItems() {
     });
     if (response.ok) {
       //onDelete(member.id);
+      fetchMembers(dispatchMembers);
       console.log("Deleted Member")
     }
   };
