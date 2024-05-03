@@ -42,12 +42,13 @@ export const reducer = (
 ): MembersState => {
   switch (action.type) {
     case "ADD_MEMBER_SUCCESS":
-      return { ...state,
-          isLoading: false,
-          isError:false,
-         members: [...state.members, action.payload],
-         errorMessage: ''
-        };
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        members: [...state.members, action.payload],
+        errorMessage: "",
+      };
     case "FETCH_MEMBERS_REQUEST":
       return {
         ...state,

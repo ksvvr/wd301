@@ -2,6 +2,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form";
+import { fetchMembers } from '../../context/members/actions';
 
 // First I'll import the addMember function
 import { addMember } from '../../context/members/actions';
@@ -32,6 +33,7 @@ const NewMember = () => {
     //const { name } = data;
     const response = await addMember(dispatchMembers,  data );
     if (response.ok) {
+      fetchMembers(dispatchMembers);
       setIsOpen(false);
     } else {
       setError(response.error.message || 'Unexpected error occurred');
