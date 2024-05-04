@@ -1,4 +1,5 @@
 // Import required type annotations
+import { TaskDetails } from "./types";
 import { API_ENDPOINT } from "../../config/constants";
 import {
   ProjectData,
@@ -15,10 +16,7 @@ export const addTask = async (
 ) => {
   const token = localStorage.getItem("authToken") ?? "";
   try {
-    // The following action will toggle `isLoading` to `true`
     dispatch({ type: TaskListAvailableAction.CREATE_TASK_REQUEST });
-
-    // Invoke the backend server with POST request and create a task.
     const response = await fetch(
       `${API_ENDPOINT}/projects/${projectID}/tasks/`,
       {
@@ -34,11 +32,10 @@ export const addTask = async (
     if (!response.ok) {
       throw new Error("Failed to create task");
     }
-    // Turn `isLoading` to `false`
     dispatch({ type: TaskListAvailableAction.CREATE_TASK_SUCCESS });
+    refreshTasks(dispatch, projectID);
   } catch (error) {
     console.error("Operation failed:", error);
-    // Update error status in the state.
     dispatch({
       type: TaskListAvailableAction.CREATE_TASK_FAILURE,
       payload: "Unable to create task",
@@ -83,6 +80,40 @@ export const refreshTasks = async (
     dispatch({
       type: TaskListAvailableAction.FETCH_TASKS_FAILURE,
       payload: "Unable to load tasks",
+    });
+  }
+};
+
+export const deleteTask = async (
+  dispatch: TasksDispatch,
+  projectID: string,
+  task: TaskDetails
+) => {
+  const token = localStorage.getItem("authToken") ?? "";
+  try {
+    dispatch({ type: TaskListAvailableAction.DELETE_TASKS_REQUEST });
+    const response = await fetch(
+      `${API_ENDPOINT}/projects/${projectID}/tasks/${task.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(task),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to delete task");
+    }
+    dispatch({ type: TaskListAvailableAction.DELETE_TASKS_SUCCESS });
+    refreshTasks(dispatch, projectID);
+  } catch (error) {
+    console.error("Operation failed:", error);
+    dispatch({
+      type: TaskListAvailableAction.DELETE_TASKS_FAILURE,
+      payload: "Unable to delete task",
     });
   }
 };
