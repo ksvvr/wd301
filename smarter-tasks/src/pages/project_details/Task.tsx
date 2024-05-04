@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext } from "react";
+import React, { forwardRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { TaskDetails } from "../../context/task/types";
 import "./TaskCard.css";
