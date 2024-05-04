@@ -1,23 +1,22 @@
 import React from "react";
 import { AvailableColumns, ProjectData } from "../../context/task/types";
-
+import { useParams } from "react-router-dom";
 import Column from "./Column.tsx";
 import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
 import { useTasksDispatch } from "../../context/task/context";
-import { reorderTasks } from "../../context/task/actions";
+import { reorderTasks, updateTask } from "../../context/task/actions";
 
 
 const Container = (props: React.PropsWithChildren) => {
   return <div className="flex">{props.children}</div>;
 };
 
-//const onDragEnd: OnDragEndResponder = (result) => {};
-
 const DragDropList = (props: {
   data: ProjectData;
 }) => {
   const taskDispatch = useTasksDispatch();
-  const onDragEnd: OnDragEndResponder = (result) => {
+  const { projectID } = useParams();
+  const onDragEnd: OnDragEndResponder = async (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) {
       return;
@@ -56,7 +55,7 @@ const DragDropList = (props: {
 
     const startTaskIDs = Array.from(start.taskIDs);
     // Remove the item from `startTaskIDs`
-    //const updatedItems = startTaskIDs.splice(source.index, 1);
+    const updatedItems = startTaskIDs.splice(source.index, 1);
 
     const newStart = {
       ...start,
@@ -82,6 +81,9 @@ const DragDropList = (props: {
       },
     };
     reorderTasks(taskDispatch, newState);
+    const updatedTask = props.data.tasks[updatedItems[0]];
+    updatedTask.state = finishKey;
+    updateTask(taskDispatch, projectID ?? "", updatedTask);
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
