@@ -27,10 +27,12 @@ const Task = forwardRef<
             <p className="text-sm text-slate-500">
               {new Date(task.dueDate).toDateString()}
             </p>
+            <p className="text-sm text-slate-500">Description: {task.description}</p>
             <p className="text-sm text-slate-500">
-              Description: {task.description}
+              Assignee: {task.assignedUserName ?? "-"}
             </p>
           </div>
+
           <button
             className="deleteTaskButton cursor-pointer h-4 w-4 rounded-full my-5 mr-5"
             onClick={(event) => {
