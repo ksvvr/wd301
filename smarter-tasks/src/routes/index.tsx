@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+//import { Outlet } from "react-router-dom";
 import AccountLayout from "../layouts/account"
 import ProtectedRoute from "./ProtectedRoute"
 import Signin from "../pages/signin"
@@ -8,6 +8,8 @@ import Projects from "../pages/projects"
 import Members from "../pages/members"
 import Logout from "../pages/logout";
 import ProjectContainer from "../pages/projects/ProjectContainer";
+import ProjectDetails from "../pages/project_details";
+import NewTask from "../pages/tasks/NewTask";
 
 
 const router = createBrowserRouter([
@@ -44,14 +46,18 @@ const router = createBrowserRouter([
         { index: true, element: <Projects /> },
         {
           path: ":projectID",
-          element: <>Show project details <Outlet /></>,
+          element: <ProjectDetails />,
           children: [
             { index: true, element: <></> },
             {
               path: "tasks",
               children: [
-                { index: true, element: <Navigate to="../" replace /> },
-                { path: "new", element: <>Show Modal window to create a task</> },
+                { index: true, element: <Navigate to="../" /> },
+                {
+                  path: "new",
+                  // Render `NewTask` component
+                  element: <NewTask />,
+                },
                 {
                   path: ":taskID",
                   children: [{ index: true, element: <>Show Task Details</> }],
@@ -61,7 +67,7 @@ const router = createBrowserRouter([
           ],
         },
       ],
-    },    
+    },   
       {
         path: "members",
         element: (<Members />)
