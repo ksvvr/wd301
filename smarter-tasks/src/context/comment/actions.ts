@@ -12,20 +12,21 @@ import {
 export const addComment = async (
   dispatch: CommentsDispatch,
   projectID: string,
-  task: CommentDetailsPayload
+  taskID: string,
+  comment: CommentDetailsPayload
 ) => {
   const token = localStorage.getItem("authToken") ?? "";
   try {
     dispatch({ type: CommentListAvailableAction.CREATE_COMMENT_REQUEST });
     const response = await fetch(
-      `${API_ENDPOINT}/projects/${projectID}/tasks/`,
+      `${API_ENDPOINT}/projects/${projectID}/tasks/${taskID}/comments`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(task),
+        body: JSON.stringify(comment),
       }
     );
 
@@ -33,7 +34,7 @@ export const addComment = async (
       throw new Error("Failed to create comment");
     }
     dispatch({ type: CommentListAvailableAction.CREATE_COMMENT_SUCCESS });
-    refreshComments(dispatch, projectID, task.id);
+    refreshComments(dispatch, projectID, taskID);
   } catch (error) {
     console.error("Operation failed:", error);
     dispatch({

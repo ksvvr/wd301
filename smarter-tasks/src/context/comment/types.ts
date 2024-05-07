@@ -55,9 +55,9 @@ export interface CommentListState {
       commentIDs: string[];
     };
   
-    export type Columns = {
-      [k in AvailableColumns]: ColumnData;
-    };
+    // export type Columns = {
+    //   [k in AvailableColumns]: ColumnData;
+    // };
     
     export type CommentDetails = {
       id: number;
@@ -76,8 +76,6 @@ export interface CommentListState {
   
     export type TaskData = {
       comments: Comments;
-      //columns: Columns;
-      //columnOrder: AvailableColumns[];
     };
     
     
