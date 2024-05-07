@@ -45,7 +45,7 @@ export interface CommentListState {
     // A type to hold dispatch actions in a context.
     export type CommentsDispatch = React.Dispatch<CommentActions>;
     
-    export type CommentDetailsPayload = Omit<CommentDetails, "id" | "assignee" | "state">;
+    export type CommentDetailsPayload = Omit<CommentDetails, "assignee" | "state">;
   
     export type AvailableColumns = "pending" | "in_progress" | "done";
     
@@ -61,6 +61,7 @@ export interface CommentListState {
     
     export type CommentDetails = {
       id: number;
+      taskID: number;
       title: string;
       description: string;
       dueDate: string;

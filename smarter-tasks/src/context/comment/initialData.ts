@@ -5,6 +5,7 @@ const initialData: TaskData = {
     "1": {
       id: 1,
       title: "Sample Task",
+      taskID: 1,
       description: "Sample description about the task which is to be completed",
       dueDate: "",
       state: "in_progress",
@@ -13,6 +14,7 @@ const initialData: TaskData = {
     },
     "2": {
       id: 2,
+      taskID: 1,
       title: "Another Sample Task",
       description: "Sample description about the task which is to be completed",
       dueDate: "",
