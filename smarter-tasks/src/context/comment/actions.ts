@@ -86,6 +86,33 @@ export const refreshComments = async (
   }
 };
 
+export const fetchComments = async (projectId, taskId) => {
+  const token = localStorage.getItem('authToken') ?? '';
+  try {
+    const response = await fetch(
+      `/projects/${projectId}/tasks/${taskId}/comments`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to fetch comments');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    return [];
+  }
+};
+
+export const sortComments = (comments) => {
+  return comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+};
+
 // export const deleteComment = async (
 //   dispatch: CommentsDispatch,
 //   projectID: string,
