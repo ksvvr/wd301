@@ -15,6 +15,7 @@ const NewTask = () => {
 
   // Use react-hook-form to create form submission handler and state.
   const {
+    register,
     handleSubmit,
   } = useForm<TaskDetailsPayload>();
   const projectState = useProjectsState();
@@ -76,35 +77,36 @@ const NewTask = () => {
                   <div className="mt-2">
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <input
-                        name="title"
+                        //name="title"
                         type="text"
                         required
                         placeholder="Enter title"
                         autoFocus
                         id="title"
                         // Register the title field
+                        {...register("title", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
-                        name="description"
+                        //name="description"
                         type="text"
                         required
                         placeholder="Enter description"
                         autoFocus
                         id="description"
                         // register the description field
-                        //{...register("description", { required: true })}
+                        {...register("description", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
                         type="date"
-                        name="dueDate"
+                        //name="dueDate"
                         required
                         placeholder="Enter due date"
                         autoFocus
                         id="dueDate"
                         // register due date field
-                        //{...register("dueDate", { required: true })}
+                        {...register("dueDate", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <button

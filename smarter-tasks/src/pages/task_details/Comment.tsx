@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
 //import { useForm, SubmitHandler } from "react-hook-form"
 import { fetchComments } from '../../context/comment/actions';
+import { format } from 'date-fns';
+
 
 interface Commentt {
+  createdAt: string | number | Date;
+  User: {
+    name: string
+  }
   id: number
   owner: string
   description: string
@@ -20,6 +26,7 @@ const CommentsList: React.FC<CommentsListProps> = ({ projectId, taskId }) => {
   useEffect(() => {
     const loadData = async () => {
       const fetchedComments = await fetchComments(projectId, taskId);
+      //const owners = await fetch()
       //const sortedComments = sortComments(fetchedComments);
       setComments(fetchedComments);
     };
@@ -40,7 +47,8 @@ const CommentsList: React.FC<CommentsListProps> = ({ projectId, taskId }) => {
   return (
     <div>
       {comments.map(comment => (
-        <div key={comment.id} className="comment">
+        <div key={comment.id} className="comment m-2 bg-lime-100">
+          <p><strong>{comment.User.name}</strong> - {format(new Date(comment.createdAt), 'PPpp')}</p>
           <p>{comment.description}</p>
         </div>
       ))}

@@ -24,7 +24,7 @@ export const addComment = async (
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(comment),
       }
@@ -61,7 +61,7 @@ export const refreshComments = async (
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
       }
     );
@@ -109,3 +109,32 @@ export const fetchComments = async (projectId: number, taskId: number) => {
   }
 };
 
+export const fetchUserName = async (id: string): Promise<string | null> => {
+  try {
+    const token = localStorage.getItem("authToken") ?? "";
+    const res = await fetch(`${API_ENDPOINT}/users`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch user name');
+    }
+
+    const users = await res.json();
+    const user = users.find((user: { id: number }) => user.id.toString() === id);
+    
+    if (user) {
+      return user.name;
+    } else {
+      console.log(`User with ID ${id} not found`);
+      return null;
+    }
+  } catch (error) {
+    console.error("Failed to get name of user:", error);
+    return null;
+  }
+};

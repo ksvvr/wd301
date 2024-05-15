@@ -14,7 +14,7 @@ interface AddCommentFormProps {
   
 const AddCommentForm: React.FC<AddCommentFormProps> = ({ projectId, taskId, onCommentAdded }) => {
 //const AddCommentForm = ({ projectId, taskId, onCommentAdded }) => {
-    const { handleSubmit, reset } = useForm<FormData>();
+    const { register, handleSubmit, reset } = useForm<FormData>();
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
     //const onSubmit = async (data) => {
@@ -51,10 +51,10 @@ const AddCommentForm: React.FC<AddCommentFormProps> = ({ projectId, taskId, onCo
         <form onSubmit={handleSubmit(onSubmit)}>
             <input
                 id="commentBox"
-                name='description'
+                //name='description'
                 required
                 className='border-solid border-black border-2'
-                //{...register("description", { required: true })}
+                {...register("description", { required: true })}
                 placeholder="Enter your comment here..."
                 type="text"
             />
