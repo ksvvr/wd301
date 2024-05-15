@@ -1,25 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { fetchComments, sortComments } from '../../context/comment/actions';
+import { useState, useEffect } from 'react';
+//import { useForm, SubmitHandler } from "react-hook-form"
+import { fetchComments } from '../../context/comment/actions';
+
+interface Commentt {
+  id: number
+  owner: string
+  description: string
+}
 
 const CommentsList = ({ projectId, taskId }) => {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<Commentt[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
       const fetchedComments = await fetchComments(projectId, taskId);
-      const sortedComments = sortComments(fetchedComments);
-      setComments(sortedComments);
+      //const sortedComments = sortComments(fetchedComments);
+      setComments(fetchedComments);
     };
 
     loadData();
   }, [projectId, taskId]);
+  
+  if (comments.length < 1){
+    return(
+      <>
+      <div>
+        <h4>No Comments</h4>
+      </div>
+      </>
+    );
+  }
 
   return (
     <div>
       {comments.map(comment => (
         <div key={comment.id} className="comment">
           <h4>{comment.owner}</h4>
-          <p>{comment.discription}</p>
+          <p>{comment.description}</p>
         </div>
       ))}
     </div>

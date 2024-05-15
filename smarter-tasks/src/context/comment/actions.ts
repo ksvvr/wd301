@@ -90,7 +90,7 @@ export const fetchComments = async (projectId, taskId) => {
   const token = localStorage.getItem('authToken') ?? '';
   try {
     const response = await fetch(
-      `/projects/${projectId}/tasks/${taskId}/comments`,
+      `${API_ENDPOINT}/projects/${projectId}/tasks/${taskId}/comments`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -109,9 +109,9 @@ export const fetchComments = async (projectId, taskId) => {
   }
 };
 
-export const sortComments = (comments) => {
-  return comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-};
+// export const sortComments = (comments) => {
+//   return comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+// };
 
 // export const deleteComment = async (
 //   dispatch: CommentsDispatch,
