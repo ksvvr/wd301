@@ -86,7 +86,7 @@ export const refreshComments = async (
   }
 };
 
-export const fetchComments = async (projectId, taskId) => {
+export const fetchComments = async (projectId: number, taskId: number) => {
   const token = localStorage.getItem('authToken') ?? '';
   try {
     const response = await fetch(
@@ -109,77 +109,3 @@ export const fetchComments = async (projectId, taskId) => {
   }
 };
 
-// export const sortComments = (comments) => {
-//   return comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-// };
-
-// export const deleteComment = async (
-//   dispatch: CommentsDispatch,
-//   projectID: string,
-//   task: CommentDetails
-// ) => {
-//   const token = localStorage.getItem("authToken") ?? "";
-//   try {
-//     dispatch({ type: CommentListAvailableAction.DELETE_COMMENTS_REQUEST });
-//     const response = await fetch(
-//       `${API_ENDPOINT}/projects/${projectID}/tasks/${task.id}`,
-//       {
-//         method: "DELETE",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${token}`,
-//         },
-//         body: JSON.stringify(task),
-//       }
-//     );
-
-//     if (!response.ok) {
-//       throw new Error("Failed to delete comment");
-//     }
-//     dispatch({ type: CommentListAvailableAction.DELETE_COMMENTS_SUCCESS });
-//     refreshComments(dispatch, projectID);
-//   } catch (error) {
-//     console.error("Operation failed:", error);
-//     dispatch({
-//       type: CommentListAvailableAction.DELETE_COMMENTS_FAILURE,
-//       payload: "Unable to delete comment",
-//     });
-//   }
-// };
-
-// export const updateComment = async (
-//   dispatch: CommentsDispatch,
-//   projectID: string,
-//   task: CommentDetails
-// ) => {
-//   const token = localStorage.getItem("authToken") ?? "";
-//   try {
-//     // Display loading status
-//     dispatch({ type: CommentListAvailableAction.UPDATE_COMMENT_REQUEST });
-//     const response = await fetch(
-//       `${API_ENDPOINT}/projects/${projectID}/tasks/${task.id}`,
-//       {
-//         method: "PATCH",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${token}`,
-//         },
-//         body: JSON.stringify(task),
-//       }
-//     );
-
-//     if (!response.ok) {
-//       throw new Error("Failed to update task");
-//     }
-//     // Display success and refresh the tasks
-//     dispatch({ type: CommentListAvailableAction.UPDATE_COMMENT_SUCCESS });
-//     refreshComments(dispatch, projectID);
-//   } catch (error) {
-//     console.error("Operation failed:", error);
-//     // Display error status
-//     dispatch({
-//       type: CommentListAvailableAction.UPDATE_COMMENT_FAILURE,
-//       payload: "Unable to update task",
-//     });
-//   }
-// };
