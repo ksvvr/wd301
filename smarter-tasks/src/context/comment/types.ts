@@ -61,14 +61,8 @@ export interface CommentListState {
     
     export type CommentDetails = {
       id: number;
-      task_id: number;
-      //title: string;
       description: string;
       owner: number;
-      //dueDate: string;
-      //state: AvailableColumns;
-      //assignee?: number,
-      //assignedUserName?: string
     };
     
     export type Comments = {
