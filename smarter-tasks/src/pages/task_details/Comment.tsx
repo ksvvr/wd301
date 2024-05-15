@@ -8,7 +8,13 @@ interface Commentt {
   description: string
 }
 
-const CommentsList = ({ projectId, taskId }) => {
+interface CommentsListProps {
+  projectId: number;
+  taskId: number;
+}
+
+const CommentsList: React.FC<CommentsListProps> = ({ projectId, taskId }) => {
+//const CommentsList = ({ projectId, taskId }) => {
   const [comments, setComments] = useState<Commentt[]>([]);
 
   useEffect(() => {
@@ -35,7 +41,6 @@ const CommentsList = ({ projectId, taskId }) => {
     <div>
       {comments.map(comment => (
         <div key={comment.id} className="comment">
-          <h4>{comment.owner}</h4>
           <p>{comment.description}</p>
         </div>
       ))}

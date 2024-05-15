@@ -1,11 +1,23 @@
 //import React from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { API_ENDPOINT } from '../../config/constants';
 
-const AddCommentForm = ({ projectId, taskId, onCommentAdded }) => {
-    const { register, handleSubmit, reset } = useForm();
+interface AddCommentFormProps {
+    projectId: number;
+    taskId: number;
+    onCommentAdded: () => void;
+  }
+  
+  interface FormData {
+    description: string;
+  }
+  
+const AddCommentForm: React.FC<AddCommentFormProps> = ({ projectId, taskId, onCommentAdded }) => {
+//const AddCommentForm = ({ projectId, taskId, onCommentAdded }) => {
+    const { register, handleSubmit, reset } = useForm<FormData>();
 
-    const onSubmit = async (data) => {
+    const onSubmit: SubmitHandler<FormData> = async (data) => {
+    //const onSubmit = async (data) => {
         const token = localStorage.getItem('authToken') ?? '';
         const commentData = {
             //description: "User's Name", // Replace with logic to retrieve user's name
@@ -39,7 +51,7 @@ const AddCommentForm = ({ projectId, taskId, onCommentAdded }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
             <input
                 id="commentBox"
-                className='border-solid'
+                className='border-solid border-black border-2'
                 {...register("description", { required: true })}
                 placeholder="Enter your comment here..."
                 type="text"

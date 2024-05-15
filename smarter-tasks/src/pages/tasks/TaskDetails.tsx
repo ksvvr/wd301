@@ -81,6 +81,11 @@ const TaskDetails = () => {
     closeModal();
   };
   
+  function handleCommentAdded(): void {
+    console.log("New Comment Added")
+    //throw new Error("Function not implemented.");
+  }
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -199,11 +204,11 @@ const TaskDetails = () => {
                     </form>
                   </div>
                   <div className="m-5">
-                    <hr/>
+                    <hr className="mt-2 mb-2"/>
                     <div>
-                    <AddCommentForm projectId={projectID} taskId={taskID} onCommentAdded={undefined} />
+                    <AddCommentForm projectId={parseInt(projectID!)} taskId={parseInt(taskID!)} onCommentAdded={handleCommentAdded} />
                     </div>
-                  <CommentsList projectId={projectID} taskId={taskID} />
+                    <CommentsList projectId={parseInt(projectID!)} taskId={parseInt(taskID!)} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
