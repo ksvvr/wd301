@@ -49,7 +49,6 @@ const TaskDetails = () => {
     selectedTask.assignedUserName ?? ""
   );
   const {
-    register,
     handleSubmit,
   } = useForm<TaskFormUpdatePayload>({
     defaultValues: {
@@ -123,27 +122,30 @@ const TaskDetails = () => {
                   <div className="mt-2">
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <input
+                        name="title"
                         type="text"
                         required
                         placeholder="Enter title"
                         id="title"
-                        {...register("title", { required: true })}
+                        //{...register("title", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
+                        name="description"
                         type="text"
                         required
                         placeholder="Enter description"
                         id="description"
-                        {...register("description", { required: true })}
+                        //{...register("description", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
                         type="date"
+                        name="dueDate"
                         required
                         placeholder="Enter due date"
                         id="dueDate"
-                        {...register("dueDate", { required: true })}
+                        //{...register("dueDate", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <h3><strong>Assignee</strong></h3>
