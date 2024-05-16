@@ -38,7 +38,7 @@ const CommentsList: React.FC<CommentsListProps> = ({ projectId, taskId }) => {
     return(
       <>
       <div>
-        <h4>No Comments</h4>
+        <h4>No Comments Yet</h4>
       </div>
       </>
     );
@@ -46,12 +46,14 @@ const CommentsList: React.FC<CommentsListProps> = ({ projectId, taskId }) => {
 
   return (
     <div>
+      <ul>
       {comments.map(comment => (
-        <div key={comment.id} className="comment m-2 bg-lime-100">
+        <li key={comment.id} className="m-2 bg-lime-100">
           <p><strong>{comment.User.name}</strong> - {format(new Date(comment.createdAt), 'PPpp')}</p>
-          <p>{comment.description}</p>
-        </div>
+          <p className='comment'>{comment.description}</p>
+        </li>
       ))}
+      </ul>
     </div>
   );
 };
