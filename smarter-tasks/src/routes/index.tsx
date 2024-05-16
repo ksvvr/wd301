@@ -11,6 +11,7 @@ import ProjectContainer from "../pages/projects/ProjectContainer";
 import ProjectDetails from "../pages/project_details";
 import NewTask from "../pages/tasks/NewTask";
 import TaskDetailsContainer from "../pages/tasks/TaskDetailsContainer";
+import NotFound from "../pages/Notfound";
 
 
 const router = createBrowserRouter([
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
         element: (<Members />)
       },
     ],
+  },
+  {
+    path: "*", // Match any path
+    element: <NotFound />
   },
 ]);
 
