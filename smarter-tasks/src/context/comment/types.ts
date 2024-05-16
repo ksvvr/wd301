@@ -1,12 +1,4 @@
-export interface CommentDetails {
-  id: number;
-  description: string;
-  owner: number;
-  createdAt: string;
-  User: {
-    name: string;
-  };
-}
+// src/context/comment/types.ts
 
 export interface CommentListState {
   comments: CommentDetails[];
@@ -15,7 +7,6 @@ export interface CommentListState {
   errorMessage: string;
 }
 
-// Actions that are available
 export enum CommentListAvailableAction {
   FETCH_COMMENTS_REQUEST = "FETCH_COMMENTS_REQUEST",
   FETCH_COMMENTS_SUCCESS = "FETCH_COMMENTS_SUCCESS",
@@ -35,12 +26,27 @@ export type CommentActions =
   | { type: CommentListAvailableAction.FETCH_COMMENTS_FAILURE; payload: string }
   | { type: CommentListAvailableAction.CREATE_COMMENT_REQUEST }
   | { type: CommentListAvailableAction.CREATE_COMMENT_SUCCESS }
-  | { type: CommentListAvailableAction.CREATE_COMMENT_FAILURE; payload: string };
-
-// A type to hold dispatch actions in a context.
+  | { type: CommentListAvailableAction.CREATE_COMMENT_FAILURE; payload: string }
+  
 export type CommentsDispatch = React.Dispatch<CommentActions>;
 
 export type CommentDetailsPayload = Omit<CommentDetails, "id">;
+
+export type CommentDetails = {
+  id: number;
+  description: string;
+  owner: number;
+  User: {
+    id: number;
+    name: string;
+  };
+  createdAt: string;
+};
+
+
+export type Comments = {
+  [k: string]: CommentDetails;
+};
 
 export type TaskData = {
   comments: CommentDetails[];

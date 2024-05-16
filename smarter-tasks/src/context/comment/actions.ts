@@ -1,11 +1,6 @@
+// src/context/comment/actions.ts
+import { CommentsDispatch, CommentDetailsPayload, CommentListAvailableAction } from "./types";
 import { API_ENDPOINT } from "../../config/constants";
-import {
-  CommentDetailsPayload,
-  CommentListAvailableAction,
-  CommentsDispatch,
-  //TaskData,
-  CommentDetails,
-} from "./types";
 
 export const addComment = async (
   dispatch: CommentsDispatch,
@@ -32,9 +27,7 @@ export const addComment = async (
       throw new Error("Failed to create comment");
     }
     dispatch({ type: CommentListAvailableAction.CREATE_COMMENT_SUCCESS });
-
-    // Automatically refresh comments after adding a new comment
-    refreshComments(dispatch, projectID, taskID);
+    await refreshComments(dispatch, projectID, taskID);
   } catch (error) {
     console.error("Operation failed:", error);
     dispatch({
@@ -66,7 +59,7 @@ export const refreshComments = async (
       throw new Error("Failed to fetch comments");
     }
 
-    const data: CommentDetails[] = await response.json();
+    const data = await response.json();
     dispatch({
       type: CommentListAvailableAction.FETCH_COMMENTS_SUCCESS,
       payload: data,
