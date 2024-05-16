@@ -5,6 +5,7 @@ import router from "./routes"
 import { ThemeContext } from "./context/theme";
 import { ProjectsProvider } from "./context/projects/context";
 import { MembersProvider } from "./context/members/context"; // Import the MembersProvider
+import { CommentsProvider } from "./context/comment/context";
 
 const App = () => {
   const { theme } = useContext(ThemeContext)
@@ -12,7 +13,9 @@ const App = () => {
      <div className={`h-screen w-full mx-auto py-2 ${theme === "dark" ? "dark" : ""}`}>
       <ProjectsProvider>
         <MembersProvider> {/* Nest MembersProvider inside ProjectsProvider */}
-          <RouterProvider router={router} />
+          <CommentsProvider>
+            <RouterProvider router={router} />
+          </CommentsProvider>
         </MembersProvider>
       </ProjectsProvider>
     </div>

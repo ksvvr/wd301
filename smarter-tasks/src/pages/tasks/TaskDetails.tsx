@@ -211,7 +211,7 @@ const TaskDetails = () => {
                     <div>
                     <AddCommentForm projectId={parseInt(projectID!)} taskId={parseInt(taskID!)} onCommentAdded={handleCommentAdded} />
                     </div>
-                    <CommentsList projectId={parseInt(projectID!)} taskId={parseInt(taskID!)} />
+                    <CommentsList projectId={(projectID!)} taskId={(taskID!)} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

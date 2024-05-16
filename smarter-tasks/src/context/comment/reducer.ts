@@ -1,49 +1,33 @@
-import { Reducer } from "react";
+import { CommentListState, CommentActions, CommentListAvailableAction, 
+ // TaskData 
+} from "./types";
 
-import taskData from "./initialData.ts"; 
-import { CommentListState } from "./types";
-
-import { CommentListAvailableAction, CommentActions } from "./types";
-// Define the initial state
 export const initialState: CommentListState = {
-  taskData: taskData,
+  comments: [],
   isLoading: false,
   isError: false,
   errorMessage: "",
 };
 
-export const commentReducer: Reducer<CommentListState, CommentActions> = (
-  state = initialState,
-  action
-) => {
+export const commentReducer = (
+  state: CommentListState = initialState,
+  action: CommentActions
+): CommentListState => {
   switch (action.type) {
     case CommentListAvailableAction.FETCH_COMMENTS_REQUEST:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, isError: false };
     case CommentListAvailableAction.FETCH_COMMENTS_SUCCESS:
-      return { ...state, isLoading: false, taskData: action.payload };
+      return { ...state, isLoading: false, comments: action.payload };
     case CommentListAvailableAction.FETCH_COMMENTS_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-        errorMessage: action.payload,
-      };
-
-    
+      return { ...state, isLoading: false, isError: true, errorMessage: action.payload };
     case CommentListAvailableAction.CREATE_COMMENT_REQUEST:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, isError: false };
     case CommentListAvailableAction.CREATE_COMMENT_SUCCESS:
       return { ...state, isLoading: false };
     case CommentListAvailableAction.CREATE_COMMENT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-        errorMessage: action.payload,
-      };
-    
+      return { ...state, isLoading: false, isError: true, errorMessage: action.payload };
     case CommentListAvailableAction.REORDER_COMMENTS:
-      return { ...state, isLoading: false, taskData: action.payload };
+      return { ...state, comments: action.payload.comments };
     default:
       return state;
   }
