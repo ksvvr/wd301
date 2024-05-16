@@ -4,7 +4,7 @@ import { API_ENDPOINT } from "../../config/constants";
 import {
   TaskData,
   CommentDetailsPayload,
-  CommentListAvailableAction,
+  CommentListAvailableAction, 
   CommentsDispatch,
 } from "./types";
 
@@ -31,7 +31,7 @@ export const addComment = async (
     );
 
     if (!response.ok) {
-      throw new Error("Failed to create comment");
+      throw new Error("Failed to create task");
     }
     dispatch({ type: CommentListAvailableAction.CREATE_COMMENT_SUCCESS });
     refreshComments(dispatch, projectID, taskID);
@@ -39,7 +39,7 @@ export const addComment = async (
     console.error("Operation failed:", error);
     dispatch({
       type: CommentListAvailableAction.CREATE_COMMENT_FAILURE,
-      payload: "Unable to create comment",
+      payload: "Unable to create task",
     });
   }
 };
@@ -59,6 +59,7 @@ export const refreshComments = async (
     const response = await fetch(
       `${API_ENDPOINT}/projects/${projectID}/tasks/${taskID}/comments`,
       {
+        method: 'GET',
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
@@ -67,7 +68,7 @@ export const refreshComments = async (
     );
 
     if (!response.ok) {
-      throw new Error("Failed to fetch comments");
+      throw new Error("Failed to fetch tasks");
     }
 
     // extract the response body as JSON data
@@ -81,60 +82,47 @@ export const refreshComments = async (
     console.error("Operation failed:", error);
     dispatch({
       type: CommentListAvailableAction.FETCH_COMMENTS_FAILURE,
-      payload: "Unable to load comments",
+      payload: "Unable to load tasks",
     });
   }
 };
 
-export const fetchComments = async (projectId: number, taskId: number) => {
-  const token = localStorage.getItem('authToken') ?? '';
+
+export const fetchComments = async (
+  dispatch: CommentsDispatch,
+  projectID: string,
+  taskID: string
+) => {
+  const token = localStorage.getItem("authToken") ?? "";
   try {
+    dispatch({ type: CommentListAvailableAction.FETCH_COMMENTS_REQUEST });
     const response = await fetch(
-      `${API_ENDPOINT}/projects/${projectId}/tasks/${taskId}/comments`,
+      `${API_ENDPOINT}/projects/${projectID}/tasks/${taskID}/comments`,
       {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
       }
     );
+
     if (!response.ok) {
-      throw new Error('Failed to fetch comments');
+      throw new Error("Failed to fetch tasks");
     }
+
+    // extract the response body as JSON data
     const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching comments:', error);
-    return [];
-  }
-};
-
-export const fetchUserName = async (id: string): Promise<string | null> => {
-  try {
-    const token = localStorage.getItem("authToken") ?? "";
-    const res = await fetch(`${API_ENDPOINT}/users`, {
-      method: "GET",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
+    dispatch({
+      type: CommentListAvailableAction.FETCH_COMMENTS_SUCCESS,
+      payload: data,
     });
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch user name');
-    }
-
-    const users = await res.json();
-    const user = users.find((user: { id: number }) => user.id.toString() === id);
-    
-    if (user) {
-      return user.name;
-    } else {
-      console.log(`User with ID ${id} not found`);
-      return null;
-    }
+    console.dir(data);
   } catch (error) {
-    console.error("Failed to get name of user:", error);
-    return null;
+    console.error("Operation failed:", error);
+    dispatch({
+      type: CommentListAvailableAction.FETCH_COMMENTS_FAILURE,
+      payload: "Unable to load tasks",
+    });
   }
 };

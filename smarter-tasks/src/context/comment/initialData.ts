@@ -1,6 +1,6 @@
 import { TaskData } from "./types";
 
-const initialData: TaskData = {
+const initialData: TaskData = { 
   comments: {
     "1": {
       id: 1,

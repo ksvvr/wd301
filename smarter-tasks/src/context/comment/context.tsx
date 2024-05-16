@@ -11,7 +11,7 @@ export const CommentsProvider: React.FC<React.PropsWithChildren> = ({
   return (
     <CommentsStateContext.Provider value={state}>
       <CommentsDispatchContext.Provider value={dispatch}>
-        {children}
+        {children} 
       </CommentsDispatchContext.Provider>
     </CommentsStateContext.Provider>
   );
