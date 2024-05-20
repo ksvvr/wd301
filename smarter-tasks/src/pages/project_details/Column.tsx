@@ -21,7 +21,7 @@ const Title = (props: React.PropsWithChildren) => {
 const TaskList = React.forwardRef<HTMLDivElement, React.PropsWithChildren<object>>(
   (props, ref) => {
     return (
-      <div ref={ref} className="grow min-h-100">
+      <div ref={ref} className="grow min-h-100 dropArea" {...props}>
         {props.children}
       </div>
     );

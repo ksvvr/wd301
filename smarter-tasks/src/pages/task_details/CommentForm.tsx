@@ -25,7 +25,7 @@ const AddCommentForm: React.FC<AddCommentFormProps> = ({ projectId, taskId, onCo
     };
 
     try {
-      await addComment(dispatch, projectId.toString(), taskId.toString(), commentData as CommentDetailsPayload);
+      addComment(dispatch, projectId.toString(), taskId.toString(), commentData as CommentDetailsPayload);
       // Callback to refresh comments in the parent component
       onCommentAdded();
       reset(); // Reset form fields

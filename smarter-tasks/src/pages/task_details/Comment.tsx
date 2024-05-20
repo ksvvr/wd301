@@ -1,7 +1,7 @@
 // Comment.tsx
 import { useEffect } from 'react';
 import { useCommentsState, useCommentsDispatch } from '../../context/comment/context';
-import { refreshComments } from '../../context/comment/actions';
+import { fetchComments } from '../../context/comment/actions';
 import { format } from 'date-fns';
 
 interface CommentsListProps {
@@ -14,7 +14,7 @@ const CommentsList: React.FC<CommentsListProps> = ({ projectId, taskId }) => {
   const dispatch = useCommentsDispatch();
 
   useEffect(() => {
-    refreshComments(dispatch, projectId, taskId);
+    fetchComments(dispatch, projectId, taskId);
   }, [dispatch, projectId, taskId]);
 
   if (isLoading) {

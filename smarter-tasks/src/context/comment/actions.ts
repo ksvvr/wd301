@@ -27,7 +27,7 @@ export const addComment = async (
       throw new Error("Failed to create comment");
     }
     dispatch({ type: CommentListAvailableAction.CREATE_COMMENT_SUCCESS });
-    await refreshComments(dispatch, projectID, taskID);
+    await fetchComments(dispatch, projectID, taskID);
   } catch (error) {
     console.error("Operation failed:", error);
     dispatch({
@@ -37,7 +37,7 @@ export const addComment = async (
   }
 };
 
-export const refreshComments = async (
+export const fetchComments = async (
   dispatch: CommentsDispatch,
   projectID: string,
   taskID: string
@@ -48,6 +48,7 @@ export const refreshComments = async (
     const response = await fetch(
       `${API_ENDPOINT}/projects/${projectID}/tasks/${taskID}/comments`,
       {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
