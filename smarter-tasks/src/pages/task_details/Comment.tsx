@@ -37,9 +37,9 @@ const CommentsList: React.FC<CommentsListProps> = ({ projectId, taskId }) => {
     <div>
       <ul>
         {comments.map(comment => (
-          <li key={comment.id} className="m-2 bg-lime-100">
+          <li key={comment.id} className="comment m-2 bg-lime-100">
             <p><strong>{comment.User.name}</strong> - {format(new Date(comment.createdAt), 'PPpp')}</p>
-            <p className='comment'>{comment.description}</p>
+            <p className=''>{comment.description}</p>
           </li>
         ))}
       </ul>
